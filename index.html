@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voucher Ulang Tahun</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-50 flex flex-col items-center justify-center min-h-screen text-center p-6">
+  <h1 class="text-4xl font-bold mb-4">Selamat Ulang Tahun Cintakuuuu !!! 🎉</h1>
+  <p class="mb-6 text-lg">Klik tombol di bawah ini yahhh !</p> 
+
+  <input id="wa-number" type="tel" placeholder="Masukkan nomor WhatsApp" class="border p-2 rounded mb-4 w-64 text-center" />
+
+  <button onclick="showVoucher()" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-xl">
+    click this button 🎁
+  </button>
+
+  <!-- MODAL -->
+  <div id="voucher-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl p-6 text-center w-80 shadow-xl">
+      <h2 class="text-2xl font-bold mb-4">Yeyyyy kamu dapat voucher 🎉</h2>
+      <img id="voucher-image" src="asset/Birthday_Gift.png" alt="Voucher" class="w-64 rounded-xl shadow mb-4" />
+      <div class="flex flex-col gap-2">
+        <button onclick="downloadVoucher()" class="bg-blue-500 text-white px-4 py-2 rounded">Download Voucher</button>
+        <button onclick="sendToWhatsApp()" class="bg-green-500 text-white px-4 py-2 rounded">Kirim ke WhatsApp</button>
+        <button onclick="closeModal()" class="text-gray-500 hover:text-black mt-2">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showVoucher() {
+      document.getElementById('voucher-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('voucher-modal').classList.add('hidden');
+    }
+
+    function downloadVoucher() {
+      const link = document.createElement('a');
+      link.href = document.getElementById('voucher-image').src;
+      link.download = 'voucher-ulang-tahun.png';
+      link.click();
+    }
+
+    function sendToWhatsApp() {
+      const numberInput = document.getElementById('wa-number').value.trim();
+      const number = numberInput.replace(/[^0-9]/g, '');
+      if (!number) {
+        alert('Masukkan nomor WhatsApp terlebih dahulu.');
+        return;
+      }
+
+      if (!number.startsWith('62')) {
+        alert('Gunakan format nomor internasional. Contoh: 6281234567890');
+        return;
+      }
+
+      const voucherLink = 'https://www.canva.com/design/DAGkTjJm_Ko/599Jy_ntJzC3jHYMFi2Omw/edit?utm_content=DAGkTjJm_Ko&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'; // opsional
+      const message = encodeURIComponent(`Hai sayangku! Ini voucher ulang tahunmu yah... berlaku selamanya tapii cuman 2x claimn yaah maximal. heheheheheh... love youuu and enjoyy 🎁\nKlik untuk melihat: ${voucherLink}`);
+
+      window.open(`https://wa.me/${number}?text=${message}`);
+
+    }
+  </script>
+</body>
+</html>
